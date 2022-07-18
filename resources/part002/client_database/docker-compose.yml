@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  client:
+    networks:
+      - backplane
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    volumes:
+      - ./client:/client
+    entrypoint: ["/client/run_forever.sh"]
+  database:
+    networks:
+      - backplane
+    image: mariadb:10.8
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "33306:3306"
+
+networks:
+  backplane:
+    name: backplane

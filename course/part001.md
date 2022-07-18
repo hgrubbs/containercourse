@@ -137,7 +137,7 @@ Open the `Dockerfile` in that directory.
 
 ```docker
 FROM nginx:latest
-ADD dashmin/* /usr/share/nginx/html/
+ADD dashmin_files/* /usr/share/nginx/html/
 ```
 
 Notice how the `echo` command has been swapped for `ADD`. This command recursively copies all the files within the `dashmin_files` directory to `/usr/share/nginx/html/` within the container.
