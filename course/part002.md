@@ -98,9 +98,9 @@ api_1       |  * Debugger PIN: 930-644-492
 
 The stack includes a toy HTTP API and backend database. Here is a list of endpoints the API supports.
 
-- `/` is the index
-- `/names` returns a JSON array of the names of characters in the database
-- `/absurd` returns a JSON array with a particularly absurd character in the database
+- `/` : Returns JSON `{"Hello": "mars"}`
+- `/names` : Returns JSON array of the names of characters in the database
+- `/absurd` Returns JSON array with the most absurd character in the database
 
 ## Problems interacting with the stack
 

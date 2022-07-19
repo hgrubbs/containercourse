@@ -26,10 +26,10 @@ def names():
     result = cursor.fetchall()
     return jsonify(result)
 
+
 @app.route('/absurd', methods=['GET'])
 def absurd():
     connection, cursor = db_connect()
     cursor.execute("SELECT firstname, lastname FROM users WHERE (firstname='Zaphod' AND lastname='Beeblebrox');")
     result = cursor.fetchall()
     return jsonify(result)
-
