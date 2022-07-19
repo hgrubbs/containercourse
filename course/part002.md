@@ -56,13 +56,13 @@ services:                                       # `services` contains an array o
       - backplane                               # container is attached to `backplane` network
     image: mariadb:10.8                         # container to fetch from docker hub: mariadb, tag 10.8
     environment:                                # optional list of environment variables to set within container
-      MARIADB_ROOT_PASSWORD: root
+      MARIADB_ROOT_PASSWORD: root               # defines an environment variable `MARIADB_ROOT_PASSWORD` with value `root`
     ports:
       - "33306:3306"                            # forward port 33306 on local machine to 3306 within container
 
-networks:
-  backplane:
-    name: backplane
+networks:                                       # optional list of networks to create
+  backplane:                                    # defines a network
+    name: backplane                             # names the network `backplane`
 ```
 
 ## Starting the stack
