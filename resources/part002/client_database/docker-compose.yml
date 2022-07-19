@@ -1,14 +1,15 @@
 version: "3.9"
 services:
-  client:
+  api:
     networks:
       - backplane
     build:
-      context: .
-      dockerfile: client/Dockerfile
+      context: client/
     volumes:
       - ./client:/client
-    entrypoint: ["/client/run_forever.sh"]
+    ports:
+      - "38080:8080"
+    entrypoint: ["/client/serve_api.sh"]
   database:
     networks:
       - backplane

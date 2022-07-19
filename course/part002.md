@@ -1,7 +1,7 @@
 # Part 2
 ## Combining container resources into systems with docker-compose
 
-Complex systems can be built on top of containers, assuming some orchestration of those containers is present. One popular tool for orchestrating contains into robust sytems is docker-compose. This tool is particularly suited to local workstation development VS production deployment.  Docker-compose orchestrates multiple containers to present a developer with a "stack" that represents their eventual production environment.
+Complex systems can be built on top of containers, assuming some orchestration of those containers is present. One popular tool for orchestrating contains into robust systems is docker-compose. This tool is particularly suited to local workstation development VS production deployment.  Docker-compose orchestrates multiple containers to present a developer with a "stack" that represents their eventual production environment.
 
 For educational purposes, we'll build a contrived system involving both a client and database container. Similar to how `Dockerfiles` define how containers are built, a `docker-compose.yaml` file defines how multiple containers run and interact.
 
@@ -10,15 +10,16 @@ For educational purposes, we'll build a contrived system involving both a client
 ```
 version: "3.9"
 services:
-  client:
+  api:
     networks:
       - backplane
     build:
-      context: .
-      dockerfile: client/Dockerfile
+      context: client/
     volumes:
       - ./client:/client
-    entrypoint: ["/client/run_forever.sh"]
+    ports:
+      - "38080:8080"
+    entrypoint: ["/client/serve_api.sh"]
   database:
     networks:
       - backplane
@@ -35,4 +36,57 @@ networks:
 
 ## Explanation of docker-compose.yaml
 
-#TODO
+```
+version: "3.9"                                  # docker-compose.yaml syntax version
+services:                                       # `services` contains an array of containers to run 
+
+  api:                                          # `api` is the name of a container
+    networks:                                   # optional list of networks this container is attached to
+      - backplane                               # `backplane` is the network mariadb is located on
+    build:                                      # a `build` key indicates this container is built locally
+      context: client/                          # `context` is the path `docker build` should operate in
+    volumes:                                    # optional list of volumes and mount points
+      - ./client:/client                        # binds the `client` directory to `/clients` inside the container
+    ports:                                      # optional list of port forwarding from host->container
+      - "38080:8080"                            # forward port 38080 on local machine to 8080 within container
+    entrypoint: ["/client/serve_api.sh"]        # specific script to "launch" the container
+
+  database:                                     # `database` is the name of a container
+    networks:
+      - backplane                               # container is attached to `backplane` network
+    image: mariadb:10.8                         # container to fetch from docker hub: mariadb, tag 10.8
+    environment:                                # optional list of environment variables to set within container
+      MARIADB_ROOT_PASSWORD: root
+    ports:
+      - "33306:3306"                            # forward port 33306 on local machine to 3306 within container
+
+networks:
+  backplane:
+    name: backplane
+```
+
+## Starting the stack
+
+To start a docker-compose system, run the command `docker-compose up` in the directory where `docker-compose.yaml` is located.
+
+Let's bring up the system. The first time, this will take a short while... the containers have to be built, downloaded, and finally run.
+
+```bash
+$ docker-compose up
+Starting client_database_database_1 ... done
+Starting client_database_api_1      ... done
+Attaching to client_database_database_1, client_database_api_1
+...
+... [misc start-up messages]
+...
+api_1       |  * Serving Flask app 'api.py' (lazy loading)
+api_1       |  * Environment: development
+api_1       |  * Debug mode: on
+api_1       |  * Running on all addresses (0.0.0.0)
+api_1       |    WARNING: This is a development server. Do not use it in a production deployment.
+api_1       |  * Running on http://127.0.0.1:8080
+api_1       |  * Running on http://172.26.0.3:8080 (Press CTRL+C to quit)
+api_1       |  * Restarting with stat
+api_1       |  * Debugger is active!
+api_1       |  * Debugger PIN: 930-644-492
+```
