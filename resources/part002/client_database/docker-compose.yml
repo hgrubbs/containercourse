@@ -16,6 +16,8 @@ services:
     image: mariadb:10.8
     environment:
       MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - ./client:/client
     ports:
       - "33306:3306"
 

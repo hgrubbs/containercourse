@@ -17,7 +17,6 @@ services:
       context: client/
     volumes:
       - ./client:/client
-    ports:
       - "38080:8080"
     entrypoint: ["/client/serve_api.sh"]
   database:
@@ -26,6 +25,8 @@ services:
     image: mariadb:10.8
     environment:
       MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - ./client:/client
     ports:
       - "33306:3306"
 
@@ -57,6 +58,8 @@ services:                                       # `services` contains an array o
     image: mariadb:10.8                         # container to fetch from docker hub: mariadb, tag 10.8
     environment:                                # optional list of environment variables to set within container
       MARIADB_ROOT_PASSWORD: root               # defines an environment variable `MARIADB_ROOT_PASSWORD` with value `root`
+    volumes:
+      - ./client:/client                        # binds the `client` directory to `/client` inside the container
     ports:
       - "33306:3306"                            # forward port 33306 on local machine to 3306 within container
 
@@ -90,3 +93,46 @@ api_1       |  * Restarting with stat
 api_1       |  * Debugger is active!
 api_1       |  * Debugger PIN: 930-644-492
 ```
+
+## Interacting with our stack
+
+The stack includes a toy HTTP API and backend database. Here is a list of endpoints the API supports.
+
+- `/` is the index
+- `/names` returns a JSON array of the names of characters in the database
+- `/absurd` returns a JSON array with a particularly absurd character in the database
+
+## Problems interacting with the stack
+
+If you attempt to access these endpoints above, you'll encounter an error. This is because our database is not populated yet, it only contains the stock `mysql` database included with MariaDB. When the API attempts to access these resources, it will raise an exception - this is normal behavior.
+
+## Fixing(populating) our database container
+
+Within `containercourse/resources/part002/client_database/client` there is a file named `characters.sql`. Running this SQL will create our database, table, and rows. There are two ways to execute this file against our database.
+
+## Two methods to populate our database container
+
+1. Connect to host port 33306 with an SQL client. This will connect to our database _container_ port of 3306.
+2. Shell directly into the database container and use the included `mysql` CLI client.
+
+For this course, we'll be using the second option.
+
+## Shelling into our database container
+
+While the stack is _up_, run this command in another terminal to access a shell within the database container.
+
+```bash
+docker-compose exec database /bin/bash
+```
+
+Once you are shelled into the container, run the following command to load `characters.sql`.
+
+```bash
+mysql -u root -proot mysql < /client/characters.sql
+```
+
+Now leave the shell, either by pressing Control+D or the `exit` command.
+
+## Interacting with our API
+
+#TODO
