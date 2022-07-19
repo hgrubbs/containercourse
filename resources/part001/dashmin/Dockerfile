@@ -1,2 +1,2 @@
 FROM nginx:latest
-ADD dashmin_files/* /usr/share/nginx/html/
+ADD dashmin_files/ /usr/share/nginx/html/

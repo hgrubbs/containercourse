@@ -111,7 +111,7 @@ RUN echo "Hello World!" > /usr/share/nginx/html/index.html
 Build the container again with the command we used earlier...but this time let's increment the tag to from `001` to `002`.
 
 ```bash
-docker built -t mycontainer:002 .
+docker build -t mycontainer:002 .
 ```
 
 Now run the new container we just built, which is tagged `mycontainer:002`.
@@ -137,7 +137,7 @@ Open the `Dockerfile` in that directory.
 
 ```docker
 FROM nginx:latest
-ADD dashmin_files/* /usr/share/nginx/html/
+ADD dashmin_files/ /usr/share/nginx/html/
 ```
 
 Notice how the `echo` command has been swapped for `ADD`. This command recursively copies all the files within the `dashmin_files` directory to `/usr/share/nginx/html/` within the container.
