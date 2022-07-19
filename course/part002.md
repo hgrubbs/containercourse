@@ -46,7 +46,7 @@ services:                                       # `services` contains an array o
     build:                                      # a `build` key indicates this container is built locally
       context: client/                          # `context` is the path `docker build` should operate in
     volumes:                                    # optional list of volumes and mount points
-      - ./client:/client                        # binds the `client` directory to `/clients` inside the container
+      - ./client:/client                        # binds the `client` directory to `/client` inside the container
     ports:                                      # optional list of port forwarding from host->container
       - "38080:8080"                            # forward port 38080 on local machine to 8080 within container
     entrypoint: ["/client/serve_api.sh"]        # specific script to "launch" the container
