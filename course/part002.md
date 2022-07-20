@@ -210,3 +210,43 @@ Since we've modified code in the above exercise, let's reset it back to the stat
 ```bash
 git reset --hard
 ```
+
+## Container reachability within docker-compose
+
+When looking at the source code for `api.py`, you might have noticed we address the database container by the hostname `database`. In most scenarios, `database` is not a valid hostname. Within docker-compose, every container can reach every other container by it's name. This means that if you wanted to communicate from the `database` container with the `api` container, you could do it with the short `api` hostname. This concept carries over into other orchestration systems, specifically Kubernetes concept of services within a namespace.
+
+To demonstrate this concept, let's access a shell in the `database` container, and attempt to reach the `api` container by name. Let's start by gaining a shell on the `database` container, and installing the `ping` utility with the below commands.
+
+First, open a shell into the database container:
+```bash
+docker-compose exec database /bin/bash
+```
+
+Now, install the `ping` utility:
+```bash
+apt update && apt install -y inetutils-ping
+```
+
+Finally, attempt to ping the `api` container by name.
+
+```bash
+root@dec55cd00845:/# ping api
+PING api (172.28.0.2): 56 data bytes
+64 bytes from 172.28.0.2: icmp_seq=0 ttl=64 time=0.373 ms
+64 bytes from 172.28.0.2: icmp_seq=1 ttl=64 time=0.177 ms
+```
+
+## Applying these concepts with your own scenarios
+
+This example stack was minimal; a database and HTTP API container. Hopefully your understanding of `docker-compose.yaml` helps you feel comfortable modifying the example from this course, or crafting entirely new stacks. Some containers you could commonly see added to the API and Database stack are:
+
+- Redis, as a caching layer
+- gRPC daemon, an alternative to HTTP
+- RabbitMQ, to introduce a message bus into your stack
+- Prometheus, for persisting telemetry and metrics from your stack
+- Grafana, for graphing and interacting with telemetry and metrics
+- nginx, for terminating SSL or implementing path-based routing rules
+
+## From docker-compose to production
+
+If you are familiar with Kubernetes, you might have noticed some parallels between `docker-compose.yaml` and Kubernetes YAML. Any system defined with docker-compose can be cleanly translated to Kubernetes(or other orchestration tools, like Swarm). As you work with DevOps staff in the future, they will understand and be competent at translating your docker-compose systems to Kubernetes resources. This creates a scenario of your development environment closely mapping to the production environment, which is ideal for everyone involved.
