@@ -9,7 +9,7 @@ services:
       - ./client:/client
     ports:
       - "38080:8080"
-    entrypoint: ["/client/serve_api.sh"]
+    entrypoint: ["/bin/sh", "/client/serve_api.sh"]
   database:
     networks:
       - backplane
