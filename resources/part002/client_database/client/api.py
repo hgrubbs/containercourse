@@ -15,7 +15,7 @@ def db_connect():
 
 @app.route('/', methods=['GET'])
 def index():
-    return {"hello": "world"}
+    return {"hello": "mars"}
 
 
 @app.route('/names', methods=['GET'])

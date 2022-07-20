@@ -1,11 +1,11 @@
 # Part 2
 ## Combining container resources into systems with docker-compose
 
-Complex systems can be built on top of containers, assuming some orchestration of those containers is present. One popular tool for orchestrating contains into robust systems is docker-compose. This tool is particularly suited to local workstation development VS production deployment.  Docker-compose orchestrates multiple containers to present a developer with a "stack" that represents their eventual production environment.
+Complex systems can be built on top of containers, assuming some orchestration of those containers is present. One popular tool for orchestrating containers into robust systems is docker-compose. This tool is particularly suited to local workstation development VS production deployment.  Docker-compose orchestrates multiple containers to present a developer with a "stack" that represents their eventual production environment.
 
-For educational purposes, we'll build a contrived system involving both a client and database container. Similar to how `Dockerfiles` define how containers are built, a `docker-compose.yaml` file defines how multiple containers run and interact.
+For educational purposes, we'll explain and run a contrived system involving both a client and database container. Similar to how `Dockerfiles` define how containers are built, a `docker-compose.yaml` file defines how multiple containers run and interact.
 
-## Starting template for docker-compose.yaml
+## Our docker-compose.yaml
 
 ```
 version: "3.9"
@@ -35,7 +35,7 @@ networks:
     name: backplane
 ```
 
-## Explanation of docker-compose.yaml
+## Annotated version of docker-compose.yaml
 
 ```
 version: "3.9"                                  # docker-compose.yaml syntax version
@@ -70,9 +70,9 @@ networks:                                       # optional list of networks to c
 
 ## Starting the stack
 
-To start a docker-compose system, run the command `docker-compose up` in the directory where `docker-compose.yaml` is located.
+To start a docker-compose system, run the command `docker-compose up` in the directory where `docker-compose.yaml` is located. Change your directory to `containercourse/resources/part002/client_database` - this is the directory containing `docker-compose.yaml`.
 
-Let's bring up the system. The first time, this will take a short while... the containers have to be built, downloaded, and finally run.
+Let's bring up the system. The first time, this will take a short while... the containers have to be downloaded, built, and finally started.
 
 ```bash
 $ docker-compose up
@@ -80,7 +80,7 @@ Starting client_database_database_1 ... done
 Starting client_database_api_1      ... done
 Attaching to client_database_database_1, client_database_api_1
 ...
-... [misc start-up messages]
+... [lots of start-up messages]
 ...
 api_1       |  * Serving Flask app 'api.py' (lazy loading)
 api_1       |  * Environment: development
@@ -119,7 +119,7 @@ For this course, we'll be using the second option.
 
 ## Shelling into our database container
 
-While the stack is _up_, run this command in another terminal to access a shell within the database container.
+The database container has a volume mounted as `/client`, which maps to our `client` directory in the repo. This directory contains the SQL file we intend to load. While the stack is _up_, run this command in another terminal to access a shell within the database container.
 
 ```bash
 docker-compose exec database /bin/bash
