@@ -194,7 +194,7 @@ Once you save your changes, you'll see a line of output from docker-compose, spe
 api_1       |  * Detected change in '/client/api.py', reloading
 ```
 
-This concept of live reloading is not unique to our program or the language it is written in. Many frameworks and languages include these feature, and concepts like volume mounts between hosts and containers allow you to easily take advantage of this. Sending a request to the `/` endpoint now returns a new message to reflect our edit.
+This concept of live reloading is not unique to our program or the language it is written in. Many frameworks and languages include this feature, and concepts like volume mounts between hosts and containers allow you to easily take advantage of this. Sending a request to the `/` endpoint now returns a new message to reflect our edit.
 
 ```bash
 $ curl 'http://localhost:38080/'
