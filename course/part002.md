@@ -135,4 +135,78 @@ Now leave the shell, either by pressing Control+D or the `exit` command.
 
 ## Interacting with our API
 
-#TODO
+With our database populated, let's test out the API endpoints. You can use any HTTP client you like, but this course will show examples from the `curl` client.
+
+### Testing the `/` endpoint
+
+```bash
+$ curl 'http://localhost:38080/'
+{
+  "hello": "mars"
+}
+```
+
+### Testing the `/names` endpoint
+
+```bash
+$ curl 'http://localhost:38080/names'
+[
+  {
+    "firstname": "Zaphod",
+    "lastname": "Beeblebrox"
+  },
+  {
+    "firstname": "Harry",
+    "lastname": "Tuttle"
+  },
+  {
+    "firstname": "Samwell",
+    "lastname": "Tarly"
+  }
+]
+```
+
+### Testing the `/absurd` endpoint
+
+```bash
+$ curl 'http://localhost:38080/absurd'
+[
+  {
+    "firstname": "Zaphod",
+    "lastname": "Beeblebrox"
+  }
+]
+```
+
+## Changing API code live
+
+In our `docker-compose.yaml` file, we defined each container with a `/client` volume. This volume contains [among other things] our source code. This concept of mounting a volume between our host and container allows us to modify our code and see the output - without restarting our stack.
+
+Open the `client/api.py` program, and change line `18` to see this concept in action.
+
+```bash
+    return {"hello": "mars"}  # CHANGE "mars" to "world"
+```
+
+Once you save your changes, you'll see a line of output from docker-compose, specifically from the `api` container.
+
+```bash
+api_1       |  * Detected change in '/client/api.py', reloading
+```
+
+This concept of live reloading is not unique to our program or the language it is written in. Many frameworks and languages include these feature, and concepts like volume mounts between hosts and containers allow you to easily take advantage of this. Sending a request to the `/` endpoint now returns a new message to reflect our edit.
+
+```bash
+$ curl 'http://localhost:38080/'
+{
+  "hello": "world"
+}
+```
+
+## Don't forget to clean up!
+
+Since we've modified code in the above exercise, let's reset it back to the state it was in before. Run the below command in your terminal to discard your changes and reset the file's state to match the repo.
+
+```bash
+git reset --hard
+```

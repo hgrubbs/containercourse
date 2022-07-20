@@ -15,21 +15,22 @@ def db_connect():
 
 @app.route('/', methods=['GET'])
 def index():
-    msg = {"hello": "mars"}
-    return msg
+    return {"hello": "world"}
 
 
 @app.route('/names', methods=['GET'])
 def names():
     connection, cursor = db_connect()
     cursor.execute("SELECT firstname, lastname FROM users;")
-    result = cursor.fetchall()
-    return jsonify(result)
+    cursor.close()
+    connection.close()
+    return jsonify(cursor.fetchall())
 
 
 @app.route('/absurd', methods=['GET'])
 def absurd():
     connection, cursor = db_connect()
     cursor.execute("SELECT firstname, lastname FROM users WHERE (firstname='Zaphod' AND lastname='Beeblebrox');")
-    result = cursor.fetchall()
-    return jsonify(result)
+    cursor.close()
+    connection.close()
+    return jsonify(cursor.fetchall())
