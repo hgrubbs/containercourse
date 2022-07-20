@@ -182,7 +182,7 @@ $ curl 'http://localhost:38080/absurd'
 
 In our `docker-compose.yaml` file, we defined each container with a `/client` volume. This volume contains [among other things] our source code. This concept of mounting a volume between our host and container allows us to modify our code and see the output - without restarting our stack.
 
-Open the `client/api.py` program, and change line `18` to see this concept in action.
+Open the `containercourse/resources/part002/client_database/client/api.py` program, and change line `18` to see this concept in action.
 
 ```bash
     return {"hello": "mars"}  # CHANGE "mars" to "world"
