@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: lab-hgrubbs
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: q5idcontainers.azurecr.io/q5id/labs/chracter-api:001
+          env:
+            - name: DB_PASSWORD
+              value: thuctive
+          ports:
+            - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  namespace: lab-hgrubbs
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: mariadb:10.8
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              value: thuctive
+          ports:
+            - containerPort: 3306
