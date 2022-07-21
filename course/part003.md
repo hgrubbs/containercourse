@@ -468,7 +468,7 @@ $ kubectl logs -n lab-hgrubbs database-8cb8d9f75-8f2j8
 ...
 ```
 
-### Fetching <N> number of logs
+### Fetching N number of logs
 
 You can restrict how many lines are fetched with the `--tail=<N>` argument. See the below example to fetch only 1 line(the most recent) from the logs.
 
