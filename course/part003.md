@@ -421,7 +421,7 @@ $ curl 'http://character-api.dev-westus2.aks.q5id.com/absurd'
 ]
 ```
 
-## A brief introduction to accessing logs from your containers
+## Accessing logs from your containers
 
 If you were curious about what was happening on the backend, that's not immediately obvious with Kubernetes, unlike with docker-compose. The output from the containers is there, but we'll need to use a command to retrieve it.
 
