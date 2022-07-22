@@ -5,7 +5,7 @@
 - [Part 1: Building and running containers with Docker](course/part001.md)
 - [Part 2: Combining container resources into systems with docker-compose](course/part002.md)
 - [Part 3: Translating systems from docker-compose to Kubernetes](course/part003.md)
-- [Part 4: Deploying, upgrading, and troubleshooting systems within Kubernetes](course/part004.md)
+- [Part 4: Exploring real workloads, and additional tools](course/part004.md)
 
 # Prerequisites
 
