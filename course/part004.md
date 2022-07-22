@@ -24,5 +24,5 @@ Follow along to learn how to use Datadog dashboards to quickly see the status of
 
 If you are interested in running your own lab cluster, below are some options for doing so. Both of these projects are geared towards developers running a lab, and get you up and running quickly compared to deploying a traditional cluster.
 
-- [k3s](https://k3s.io/): Lightweight Kubernetes, created by [Rancher](https://rancher.com/)
-- [Minikube](https://minikube.sigs.k8s.io/docs/start/): Minikube, the original Kubernetes lab
+- [k3s](https://k3s.io/): A lightweight Kubernetes, created by [Rancher](https://rancher.com/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/): The original Kubernetes lab
